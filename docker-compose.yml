@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    postgres:
+      build:
+        context: .
+        dockerfile: setup_db/Dockerfile
+      ports:
+        - "5432:5432"
+
+    web:
+      build:
+        context: .
+        dockerfile: webpage/Dockerfile
+      ports:
+        - "5000:5000"

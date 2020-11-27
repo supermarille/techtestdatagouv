@@ -7,10 +7,9 @@ import psycopg2
 import re
 import requests
 import shutil
-import pprint
 
 
-DATASETS_DIRECTORY = './datasets'
+DATASETS_DIRECTORY = '../datasets'
 
 
 class Scraping:
@@ -21,8 +20,10 @@ class Scraping:
 
     def __init__(self):
         # connect and create database
-        self.db_conn = psycopg2.connect(database="datasetsdb", user='postgres', password='',
-                                        host='127.0.0.1', port='5432')
+        # self.db_conn = psycopg2.connect(database="docker", user='docker', password='docker',
+        #                                 host='postgres', port='5432')
+        self.db_conn = psycopg2.connect(database='datasetsdb', user='postgres', password='',
+                                        host='localhost')
         self.db_conn.autocommit = True
         self.cur = self.db_conn.cursor()
         # create a table for the links to save
@@ -82,12 +83,13 @@ class Scraping:
         try:
             res = requests.get(latest_url, allow_redirects=True)
             res.raise_for_status()
-        except requests.HTTPError as http_err:
-            print(http_err)
+        except requests.exceptions.RequestException as err:
+            print(err)
             self.cur.execute(f"""DELETE FROM links
                                  WHERE latest_url = '{latest_url}';
                               """)
             return
+
         # get the dataset file name if it exists, else just take the last part of the url
         cd = res.headers.get('content-disposition')
         if not cd:
@@ -134,7 +136,6 @@ class Scraping:
 
 
 def main():
-    """ """
     if os.path.exists(DATASETS_DIRECTORY):
         shutil.rmtree(DATASETS_DIRECTORY)
     # url = "https://www.data.gouv.fr/api/1/datasets/?page=3000&page_size=1"

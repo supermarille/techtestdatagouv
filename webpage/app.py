@@ -1,15 +1,16 @@
 from flask import Flask, send_file, render_template
 import psycopg2
 import os
-from scraping import DATASETS_DIRECTORY
+from setup_db.scraping import DATASETS_DIRECTORY
 
 
 app = Flask(__name__)
 
 
 def connect_to_db():
-    conn = psycopg2.connect(database="datasetsdb", user='postgres', password='',
-                            host='127.0.0.1', port='5432')
+    # conn = psycopg2.connect(database="docker", user='docker', password='docker',
+    #                         host='postgres', port='5432')
+    conn = psycopg2.connect(database="datasetsdb", user="postgres", password="", host="localhost")
     conn.autocommit = True
     return conn
 
@@ -24,6 +25,9 @@ def list_files_metadata():
                 """)
     results = dict()
     for url, title, path in cur.fetchall():
+        if path is None:
+            continue
+        print(path)
         results[url] = {'title': title,
                         'filename': path.split('/')[-1]}
     conn.close()
@@ -40,4 +44,6 @@ def download_file(filename):
 
 
 if __name__ == '__main__':
+    # app.run(host='0.0.0.0')
     app.run()
+

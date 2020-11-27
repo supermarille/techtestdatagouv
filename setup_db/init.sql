@@ -1,0 +1,4 @@
+-- CREATE DATABASE docker;
+-- GRANT ALL PRIVILEGES ON DATABASE docker TO docker;
+
+CREATE TABLE links(latest_url VARCHAR(255), title VARCHAR(255), filepath VARCHAR(255));

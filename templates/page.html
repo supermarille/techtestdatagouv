@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tech test on datagouv</title>
+</head>
+<body>
+
+<table border=1>
+    <thead>
+        <th>Filename</th>
+        <th>Download file</th>
+    </thead>
+    <tbody>
+    {% for url, values in data.items() %}
+    <tr>
+        <td>{{ values['filename'] }}</td>
+        <!-- <td>{{ values['title'] }}</td> -->
+        <td>
+            <a href="/download/{{ values['filename'] }}" download="{{ values['filename'] }}">
+                <button type="button">{{ values['title'] }}</button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

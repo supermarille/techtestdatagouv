@@ -1,16 +1,18 @@
 from flask import Flask, send_file, render_template
 import psycopg2
 import os
-from setup_db.scraping import DATASETS_DIRECTORY
+#from setup_db.scraping import DATASETS_DIRECTORY
 
 
 app = Flask(__name__)
+
+DATASETS_DIRECTORY = "../datasets"
 
 
 def connect_to_db():
     # conn = psycopg2.connect(database="docker", user='docker', password='docker',
     #                         host='postgres', port='5432')
-    conn = psycopg2.connect(database="datasetsdb", user="postgres", password="", host="localhost")
+    conn = psycopg2.connect(database="postgres", user="postgres", password="test", host="localhost")
     conn.autocommit = True
     return conn
 

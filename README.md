@@ -2,8 +2,7 @@
 
 Scraping data from an open data pool.
 
-## Not done:
-- unit tests
+## Not done
 - dockerization not working. The issue is that I seem to have a shadow name "api" instead of
  "app" stuck somewhere I can't find.
  
